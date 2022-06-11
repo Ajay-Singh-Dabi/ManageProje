@@ -27,6 +27,10 @@ class SignInActivity : BaseActivity() {
             WindowManager.LayoutParams.FLAG_FULLSCREEN
         )
 
+        btn_sign_in.setOnClickListener {
+            signInRegisteredUser()
+        }
+
         setupActionBar()
     }
 
@@ -46,8 +50,8 @@ class SignInActivity : BaseActivity() {
     }
 
     private fun signInRegisteredUser(){
-        val email: String = et_email_signin.toString().trim{it <= ' '}
-        val password: String = et_password_signin.toString().trim{it <= ' '}
+        val email: String = et_email_signin.text.toString().trim{it <= ' '}
+        val password: String = et_password_signin.text.toString().trim{it <= ' '}
 
         if(validateForm(email, password)){
             showProgressDialog(resources.getString(R.string.please_wait))

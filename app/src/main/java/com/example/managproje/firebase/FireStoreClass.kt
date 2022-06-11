@@ -34,11 +34,16 @@ class FireStoreClass {
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
-            .addOnSuccessListener {
+            .addOnSuccessListener {  document ->
+                val loggedInUser = document.toObject(User::class.java)
+
+                if(loggedInUser !=null){
+                    activity.signInSuccess(loggedInUser)
+                }
 
             }.addOnFailureListener {
                     e->
-                Log.e(activity.javaClass.simpleName,
+                Log.e("SignInUser",
                     "Error writing document",e)
             }
     }

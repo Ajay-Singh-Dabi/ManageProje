@@ -1,16 +1,15 @@
-package com.example.managproje
+package com.example.managproje.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.WindowManager
-import kotlinx.android.synthetic.main.activity_sign_in.*
+import com.example.managproje.R
 import kotlinx.android.synthetic.main.activity_sign_up.*
-import kotlinx.android.synthetic.main.activity_sign_up.toolbar_sign_up_activity
 
-class SignInActivity : AppCompatActivity() {
+class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_in)
+        setContentView(R.layout.activity_sign_up)
 
         window.setFlags(
             WindowManager.LayoutParams.FLAG_FULLSCREEN,
@@ -20,9 +19,8 @@ class SignInActivity : AppCompatActivity() {
         setupActionBar()
     }
 
-
     private fun setupActionBar(){
-        setSupportActionBar(toolbar_sign_in_activity)
+        setSupportActionBar(toolbar_sign_up_activity)
 
         val actionBar = supportActionBar
         if(actionBar != null){
@@ -30,8 +28,9 @@ class SignInActivity : AppCompatActivity() {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_black_color_back_24dp)
         }
 
-        toolbar_sign_in_activity.setNavigationOnClickListener {
+        toolbar_sign_up_activity.setNavigationOnClickListener {
             onBackPressed()
         }
     }
+
 }

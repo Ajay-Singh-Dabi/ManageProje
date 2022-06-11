@@ -1,4 +1,4 @@
-package com.example.managproje
+package com.example.managproje.activities
 
 import android.content.Intent
 import android.graphics.Typeface
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.view.WindowManager
+import com.example.managproje.R
 import kotlinx.android.synthetic.main.activity_splash.*
 
 
@@ -22,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
         tv_app_name.typeface = typeFace
 
         Handler().postDelayed({
-            startActivity(Intent(this,IntroActivity::class.java))
+            startActivity(Intent(this, IntroActivity::class.java))
         },2500)
     }
 }

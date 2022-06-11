@@ -67,7 +67,7 @@ class SignUpActivity : BaseActivity() {
                     } else {
                         Toast.makeText(
                             this,
-                            task.exception!!.message, Toast.LENGTH_SHORT).show()
+                            "Registration Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
         }

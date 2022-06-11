@@ -21,13 +21,13 @@ data class User (
     ) {
     }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) =with(parcel) {
-        writeString(id)
-        writeString(name)
-        writeString(email)
-        writeString(image)
-        writeLong(mobile)
-        writeString(fcmToken)
+    override fun writeToParcel(parcel: Parcel, flags: Int){
+        parcel.writeString(id)
+        parcel.writeString(name)
+        parcel.writeString(email)
+        parcel.writeString(image)
+        parcel.writeLong(mobile)
+        parcel.writeString(fcmToken)
     }
 
     override fun describeContents() = 0

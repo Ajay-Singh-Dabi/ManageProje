@@ -6,6 +6,8 @@ import android.text.TextUtils
 import android.view.WindowManager
 import android.widget.Toast
 import com.example.managproje.R
+import com.example.managproje.firebase.FireStoreClass
+import com.example.managproje.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_up.*
@@ -21,6 +23,10 @@ class SignUpActivity : BaseActivity() {
         )
 
         setupActionBar()
+
+        btn_sign_up.setOnClickListener {
+            registerUser()
+        }
     }
 
     private fun setupActionBar(){
@@ -35,10 +41,6 @@ class SignUpActivity : BaseActivity() {
         toolbar_sign_up_activity.setNavigationOnClickListener {
             onBackPressed()
         }
-
-        btn_sign_up.setOnClickListener {
-            registerUser()
-        }
     }
 
     private fun registerUser(){
@@ -51,22 +53,15 @@ class SignUpActivity : BaseActivity() {
             FirebaseAuth.getInstance()
                 .createUserWithEmailAndPassword(email,password)
                 .addOnCompleteListener { task ->
-                    hideProgressDialog()
                     if (task.isSuccessful) {
                         val firebaseUser: FirebaseUser = task.result!!.user!!
                         val registeredEmail = firebaseUser.email!!
-                        Toast.makeText(
-                            this,
-                            "$name you have successfully " +
-                                    "registered the email address $registeredEmail",
-                            Toast.LENGTH_LONG
-                        ).show()
 
-                        FirebaseAuth.getInstance().signOut()
-                        finish()
+                        val user = User(firebaseUser.uid,name,registeredEmail)
+                        FireStoreClass().registerUserFireStore(this@SignUpActivity,user)
                     } else {
                         Toast.makeText(
-                            this,
+                            this@SignUpActivity,
                             "Registration Failed", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -91,6 +86,18 @@ class SignUpActivity : BaseActivity() {
                 true
             }
         }
+    }
+
+    fun userRegisteredSuccess(){
+        Toast.makeText(
+            this@SignUpActivity,
+            "You have successfully " +
+                    "registered",
+            Toast.LENGTH_LONG
+        ).show()
+        hideProgressDialog()
+        FirebaseAuth.getInstance().signOut()
+        finish()
     }
 
 }

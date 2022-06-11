@@ -1,6 +1,7 @@
 package com.example.managproje.firebase
 
 import android.util.Log
+import com.example.managproje.activities.SignInActivity
 import com.example.managproje.activities.SignUpActivity
 import com.example.managproje.models.User
 import com.example.managproje.utils.Constants
@@ -27,5 +28,18 @@ class FireStoreClass {
 
     fun getCurrentUserId(): String{
         return FirebaseAuth.getInstance().currentUser!!.uid
+    }
+
+    fun signInUser(activity: SignInActivity){
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .get()
+            .addOnSuccessListener {
+
+            }.addOnFailureListener {
+                    e->
+                Log.e(activity.javaClass.simpleName,
+                    "Error writing document",e)
+            }
     }
 }

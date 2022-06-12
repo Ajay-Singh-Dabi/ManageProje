@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.Glide
 import com.example.managproje.R
+import com.example.managproje.firebase.FireStoreClass
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.auth.User
+import com.example.managproje.models.User
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,6 +24,8 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         setupActionBar()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        FireStoreClass().signInUser(this)
     }
 
 
@@ -50,13 +54,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetials(loggedInUser: User){
+    fun updateNavigationUserDetails(loggedInUser: User){
         Glide
-            .with(myFragment)
-            .load(url)
+            .with(this)
+            .load(loggedInUser.image)
             .centerCrop()
-            .placeholder(R.drawable.loading_spinner)
-            .into(myImageView)
+            .placeholder(R.drawable.ic_user_place_holder)
+            .into(nav_signin_user_image)
+
+        tv_signin_username.text = loggedInUser.name
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

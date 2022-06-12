@@ -53,7 +53,9 @@ class FireStoreClass {
                         }
                     }
                     is MainActivity ->{
-                        activity.updateNavigationUserDetials(loggedInUser)
+                        if (loggedInUser != null) {
+                            activity.updateNavigationUserDetails(loggedInUser)
+                        }
                     }
                 }
 
@@ -61,6 +63,14 @@ class FireStoreClass {
 
             }.addOnFailureListener {
                     e->
+                when(activity){
+                    is SignInActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                    is MainActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                }
                 Log.e("SignInUser",
                     "Error writing document",e)
             }

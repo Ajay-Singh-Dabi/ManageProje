@@ -11,12 +11,10 @@
         android:theme="@style/Theme.ManagProje">
         <activity
             android:name=".activities.MyProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".firebase.MyProfileActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".activities.BaseActivity"
             android:exported="false" />

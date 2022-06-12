@@ -23,7 +23,7 @@
 
     <string name="mobile_my_profile">Mobile</string>
     <string name="update_my_profile">UPDATE</string>
-    <string name="my_profile">My Profile</string>
+    <string name="my_profile_title">My Profile</string>
 
 
 </resources>

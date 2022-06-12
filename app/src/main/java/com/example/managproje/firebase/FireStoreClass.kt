@@ -1,6 +1,8 @@
 package com.example.managproje.firebase
 
+import android.app.Activity
 import android.util.Log
+import com.example.managproje.activities.MainActivity
 import com.example.managproje.activities.SignInActivity
 import com.example.managproje.activities.SignUpActivity
 import com.example.managproje.models.User
@@ -37,16 +39,25 @@ class FireStoreClass {
 
     }
 
-    fun signInUser(activity: SignInActivity){
+    fun signInUser(activity: Activity){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
             .addOnSuccessListener {  document ->
                 val loggedInUser = document.toObject(User::class.java)
 
-                if(loggedInUser !=null){
-                    activity.signInSuccess(loggedInUser)
+                when(activity){
+                    is SignInActivity ->{
+                        if(loggedInUser !=null){
+                            activity.signInSuccess(loggedInUser)
+                        }
+                    }
+                    is MainActivity ->{
+                        activity.updateNavigationUserDetials(loggedInUser)
+                    }
                 }
+
+
 
             }.addOnFailureListener {
                     e->

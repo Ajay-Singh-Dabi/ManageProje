@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.example.managproje.R
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.auth.User
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 
@@ -21,6 +23,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         nav_view.setNavigationItemSelectedListener(this)
     }
+
 
     private fun setupActionBar(){
         setSupportActionBar(toolbar_main_activity)
@@ -45,6 +48,15 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }else{
             doubleBackToExit()
         }
+    }
+
+    fun updateNavigationUserDetials(loggedInUser: User){
+        Glide
+            .with(myFragment)
+            .load(url)
+            .centerCrop()
+            .placeholder(R.drawable.loading_spinner)
+            .into(myImageView)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

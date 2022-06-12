@@ -1,10 +1,11 @@
 package com.example.managproje.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bumptech.glide.Glide
 import com.example.managproje.R
+import com.example.managproje.firebase.FireStoreClass
+import com.example.managproje.models.User
 import kotlinx.android.synthetic.main.activity_my_profile.*
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MyProfileActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,6 +13,8 @@ class MyProfileActivity : BaseActivity() {
         setContentView(R.layout.activity_my_profile)
 
         setupActionBar()
+
+        FireStoreClass().loadUserData(this)
     }
 
 
@@ -25,5 +28,21 @@ class MyProfileActivity : BaseActivity() {
             actionBar.title = resources.getString(R.string.my_profile_title)
         }
         toolbar_my_profile_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    fun setUserDataInUI(loggedInUser: User){
+        Glide
+            .with(this@MyProfileActivity)
+            .load(loggedInUser.image)
+            .centerCrop()
+            .placeholder(R.drawable.ic_user_place_holder)
+            .into(iv_user_image_my_profile)
+
+        et_name_my_profile.setText(loggedInUser.name)
+        et_email_my_profile.setText(loggedInUser.email)
+        if(loggedInUser.mobile != 0L){
+            et_mobile_my_profile.setText(loggedInUser.mobile.toString())
+        }
+
     }
 }

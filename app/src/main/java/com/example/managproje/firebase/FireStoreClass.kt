@@ -3,6 +3,7 @@ package com.example.managproje.firebase
 import android.app.Activity
 import android.util.Log
 import com.example.managproje.activities.MainActivity
+import com.example.managproje.activities.MyProfileActivity
 import com.example.managproje.activities.SignInActivity
 import com.example.managproje.activities.SignUpActivity
 import com.example.managproje.models.User
@@ -39,7 +40,7 @@ class FireStoreClass {
 
     }
 
-    fun signInUser(activity: Activity){
+    fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)
             .document(getCurrentUserId())
             .get()
@@ -57,6 +58,11 @@ class FireStoreClass {
                             activity.updateNavigationUserDetails(loggedInUser)
                         }
                     }
+                    is MyProfileActivity ->{
+                        if (loggedInUser != null) {
+                            activity.setUserDataInUI(loggedInUser)
+                        }
+                    }
                 }
 
 
@@ -68,6 +74,9 @@ class FireStoreClass {
                         activity.hideProgressDialog()
                     }
                     is MainActivity ->{
+                        activity.hideProgressDialog()
+                    }
+                    is MyProfileActivity->{
                         activity.hideProgressDialog()
                     }
                 }

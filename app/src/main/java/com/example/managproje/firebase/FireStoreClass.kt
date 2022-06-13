@@ -2,6 +2,7 @@ package com.example.managproje.firebase
 
 import android.app.Activity
 import android.util.Log
+import android.widget.Toast
 import com.example.managproje.activities.MainActivity
 import com.example.managproje.activities.MyProfileActivity
 import com.example.managproje.activities.SignInActivity
@@ -39,6 +40,31 @@ class FireStoreClass {
         return currentUserId
 
     }
+
+    fun updateUserProfileData(activity: MyProfileActivity,
+                              userHashMap: HashMap<String, Any>){
+        mFireStore.collection(Constants.USERS)
+            .document(getCurrentUserId())
+            .update(userHashMap)
+            .addOnSuccessListener {
+                Log.i(activity.javaClass.simpleName, "Profile Data Updated Successfully")
+                Toast.makeText(activity,
+                    "Profile Data Updated Successfully",
+                    Toast.LENGTH_SHORT).show()
+
+                activity.profileUpdateSuccess()
+            }
+            .addOnFailureListener {
+                e->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName, "Error while creating a board",e)
+
+                Toast.makeText(activity,
+                    "Error when updating the Profile",
+                    Toast.LENGTH_SHORT).show()
+            }
+    }
+
 
     fun loadUserData(activity: Activity){
         mFireStore.collection(Constants.USERS)

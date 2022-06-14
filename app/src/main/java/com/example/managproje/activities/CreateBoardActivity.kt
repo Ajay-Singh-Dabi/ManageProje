@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import java.io.IOException
 
-class CreateBoardActivity : AppCompatActivity() {
+class CreateBoardActivity : BaseActivity() {
 
     private var mSelectedImageFileUri : Uri? = null
 
@@ -48,6 +48,12 @@ class CreateBoardActivity : AppCompatActivity() {
                 )
             }
         }
+
+    }
+
+    fun boardCreatedSuccessfully(){
+        hideProgressDialog()
+        finish()
 
     }
 

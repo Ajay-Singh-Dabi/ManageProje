@@ -10,6 +10,8 @@ import com.example.managproje.activities.MyProfileActivity
 object Constants {
     const val USERS: String = "USERS"
 
+    const val BOARDS: String = "boards"
+
     const val IMAGE: String = "image"
     const val NAME : String = "name"
     const val MOBILE: String = "mobile"

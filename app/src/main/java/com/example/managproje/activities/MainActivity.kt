@@ -5,16 +5,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.managproje.R
+import com.example.managproje.adapters.BoardItemsAdapter
 import com.example.managproje.firebase.FireStoreClass
+import com.example.managproje.models.Board
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.example.managproje.models.User
 import com.example.managproje.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -40,6 +45,25 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             intent.putExtra(Constants.NAME, mUserName)
             startActivity(intent)
 
+        }
+    }
+
+    fun populateBoardListToUI(boardList: ArrayList<Board>){
+        hideProgressDialog()
+
+        if(boardList.size > 0){
+            rv_boards_list.visibility = View.VISIBLE
+            tv_noBoards_available.visibility = View.GONE
+
+            rv_boards_list.layoutManager = LinearLayoutManager(this)
+            rv_boards_list.setHasFixedSize(true)
+
+            val adapter = BoardItemsAdapter(this, boardList)
+            rv_boards_list.adapter = adapter
+
+        }else{
+            rv_boards_list.visibility = View.GONE
+            tv_noBoards_available.visibility = View.VISIBLE
         }
     }
 

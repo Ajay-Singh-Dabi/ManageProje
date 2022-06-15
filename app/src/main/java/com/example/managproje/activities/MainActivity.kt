@@ -38,7 +38,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        FireStoreClass().loadUserData(this)
+        FireStoreClass().loadUserData(this, true)
 
         fab_create_button.setOnClickListener {
             val intent = Intent(this,CreateBoardActivity::class.java)
@@ -93,7 +93,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    fun updateNavigationUserDetails(loggedInUser: User){
+    fun updateNavigationUserDetails(loggedInUser: User, readBoardList: Boolean){
 
         mUserName = loggedInUser.name
 
@@ -105,6 +105,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             .into(nav_signin_user_image)
 
         tv_signin_username.text = loggedInUser.name
+        if(readBoardList){
+            showProgressDialog(resources.getString(R.string.please_wait))
+            FireStoreClass().getBoardsList(this)
+
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

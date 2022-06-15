@@ -8,7 +8,7 @@ data class Board (
         val image: String = "",
         val createdBy: String = "",
         val assignedTo: ArrayList<String> = ArrayList(),
-        val documentId: String = ""
+        var documentId: String = ""
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,

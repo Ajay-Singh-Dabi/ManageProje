@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.managproje.R
+import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Task
 import kotlinx.android.synthetic.main.item_task.view.*
 
@@ -58,6 +59,8 @@ open class TaskListItemsAdapter(private val context: Context,
 
         }
     }
+
+
 
     override fun getItemCount(): Int {
         return list.size

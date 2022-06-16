@@ -1,6 +1,5 @@
 package com.example.managproje.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.managproje.R
@@ -9,7 +8,6 @@ import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
 import com.example.managproje.models.Task
 import com.example.managproje.utils.Constants
-import kotlinx.android.synthetic.main.activity_my_profile.*
 import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : BaseActivity() {
@@ -47,6 +45,11 @@ class TaskListActivity : BaseActivity() {
         val adapter = TaskListItemsAdapter(this, board.taskList)
         rv_task_list.adapter = adapter
 
+    }
+
+    fun addUpdateTaskListSuccess(){
+
+        FireStoreClass().getBoardDetails(this, mBoardDetails.documentId)
     }
 
     private fun setupActionBar(){

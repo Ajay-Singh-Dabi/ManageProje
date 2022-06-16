@@ -163,7 +163,9 @@ class FireStoreClass {
                 Log.i(activity.javaClass.simpleName, document.toString())
 
                 val boardList: ArrayList<Board> = ArrayList()
-                activity.boardDetails(document.toObject(Board::class.java)!!)
+                val board = document.toObject(Board::class.java)!!
+                board.documentId = document.id
+                activity.boardDetails(board)
 
             }
             .addOnFailureListener {

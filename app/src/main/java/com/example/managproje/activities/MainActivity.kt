@@ -118,7 +118,12 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if(resultCode == Activity.RESULT_OK
             && requestCode == MY_PROFILE_REQUEST_CODE){
             FireStoreClass().loadUserData(this)
-        }else{
+        }else if(resultCode == Activity.RESULT_OK
+            && requestCode == CREATE_BOARD_REQUEST_CODE){
+            FireStoreClass().getBoardsList(this)
+        }
+
+        else{
             Log.e("Cancelled", "Cancelled")
         }
     }

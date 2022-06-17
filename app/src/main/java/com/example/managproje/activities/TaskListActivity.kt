@@ -139,5 +139,8 @@ class TaskListActivity : BaseActivity() {
         toolbar_task_list_activity.setNavigationOnClickListener { onBackPressed() }
     }
 
+    companion object {
+        const val MEMBERS_REQUEST_CODE: Int = 13
+    }
 
 }

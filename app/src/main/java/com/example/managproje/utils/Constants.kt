@@ -25,6 +25,7 @@ object Constants {
 
     const val BOARD_DETAIL: String = "board_detail"
     const val ID: String = "id"
+    const val EMAIL: String = "email"
 
     fun showImageChooser(activity: Activity){
         var galleryIntent = Intent(

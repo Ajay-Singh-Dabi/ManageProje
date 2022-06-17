@@ -217,4 +217,48 @@ class FireStoreClass {
                 Log.e(activity.javaClass.simpleName, "Error while loading the Members",e)
             }
     }
+
+    fun getMemberDetails(activity: MembersActivity, email: String){
+        mFireStore.collection(Constants.USERS)
+            .whereEqualTo(Constants.EMAIL,email)
+            .get()
+            .addOnSuccessListener {
+                document->
+                if(document.size() > 0){
+                    val user = document.documents[0].toObject(User::class.java)
+                    activity.memberDetails(user!!)
+                }else{
+                    activity.hideProgressDialog()
+                    activity.showErrorSnackBar("No Such Member Found")
+                }
+            }
+            .addOnFailureListener { e->
+                activity.hideProgressDialog()
+                Log.e(
+                    activity.javaClass.simpleName,
+                    "Error while getting User Details",
+                    e
+                )
+            }
+    }
+
+    fun assignMemberToBoard(
+        activity: MembersActivity, board: Board, user: User){
+
+        val assignedToHashMap = HashMap<String, Any>()
+        assignedToHashMap[Constants.ASSIGNED_TO] = board.assignedTo
+
+        mFireStore.collection(Constants.BOARDS)
+            .document(board.documentId)
+            .update(assignedToHashMap)
+            .addOnSuccessListener {
+                activity.memberAssignedSuccess(user)
+            }
+            .addOnFailureListener { e->
+                activity.hideProgressDialog()
+                Log.e(activity.javaClass.simpleName,
+                    "Error while assigning to board", e)
+            }
+
+    }
 }

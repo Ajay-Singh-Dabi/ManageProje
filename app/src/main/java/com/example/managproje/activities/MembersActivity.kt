@@ -1,5 +1,6 @@
 package com.example.managproje.activities
 
+import android.app.Activity
 import android.app.Dialog
 import android.icu.text.LocaleDisplayNames
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class MembersActivity : BaseActivity() {
     private lateinit var mBoardDetails: Board
 
     private lateinit var mAssignedMembersList: ArrayList<User>
+    private var anyChangerMade: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -108,9 +110,20 @@ class MembersActivity : BaseActivity() {
         dialog.show()
     }
 
+    override fun onBackPressed() {
+        if(anyChangerMade){
+            setResult(Activity.RESULT_OK)
+        }
+
+        super.onBackPressed()
+    }
+
     fun memberAssignedSuccess(user: User){
         hideProgressDialog()
         mAssignedMembersList.add(user)
+
+        anyChangerMade = true
+
         setupMembersList(mAssignedMembersList)
     }
 }

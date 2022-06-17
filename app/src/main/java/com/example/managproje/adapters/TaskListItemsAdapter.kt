@@ -111,11 +111,11 @@ open class TaskListItemsAdapter(private val context: Context,
             }
 
             holder.itemView.ib_done_card_name.setOnClickListener {
-                val cardName = holder.itemView.et_task_list_name.text.toString()
+                val cardName = holder.itemView.et_card_name.text.toString()
 
                 if(cardName.isNotEmpty()){
                     if(context is TaskListActivity){
-                        //TODO add a card
+                        context.addCardToTaskList(position,cardName)
                     }
                 }else{
                     Toast.makeText(context,

@@ -6,6 +6,7 @@ import com.example.managproje.R
 import com.example.managproje.adapters.TaskListItemsAdapter
 import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
+import com.example.managproje.models.Card
 import com.example.managproje.models.Task
 import com.example.managproje.utils.Constants
 import kotlinx.android.synthetic.main.activity_task_list.*
@@ -84,6 +85,29 @@ class TaskListActivity : BaseActivity() {
         FireStoreClass().addUpdateTaskList(this,mBoardDetails)
     }
 
+    fun addCardToTaskList(position: Int, cardName: String){
+        mBoardDetails.taskList.removeAt(mBoardDetails.taskList.size-1)
+
+        val cardAssignedUsersList: ArrayList<String> = ArrayList()
+        cardAssignedUsersList.add(FireStoreClass().getCurrentUserId())
+
+        val card = Card(cardName,FireStoreClass().getCurrentUserId(), cardAssignedUsersList)
+
+        val cardsList = mBoardDetails.taskList[position].cards
+        cardsList.add(card)
+
+        val task = Task(
+            mBoardDetails.taskList[position].title,
+            mBoardDetails.taskList[position].createdBy,
+            cardsList
+        )
+
+        mBoardDetails.taskList[position] = task
+        showProgressDialog(resources.getString(R.string.please_wait))
+
+        FireStoreClass().addUpdateTaskList(this,mBoardDetails)
+    }
+
     private fun setupActionBar(){
         setSupportActionBar(toolbar_task_list_activity)
 
@@ -95,4 +119,6 @@ class TaskListActivity : BaseActivity() {
         }
         toolbar_task_list_activity.setNavigationOnClickListener { onBackPressed() }
     }
+
+
 }

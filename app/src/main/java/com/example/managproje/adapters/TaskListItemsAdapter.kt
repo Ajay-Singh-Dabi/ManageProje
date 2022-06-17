@@ -1,5 +1,6 @@
 package com.example.managproje.adapters
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.res.Resources
 import android.view.LayoutInflater
@@ -95,7 +96,33 @@ open class TaskListItemsAdapter(private val context: Context,
 
             }
 
+            holder.itemView.ib_delete_list.setOnClickListener {
+                alertDialogForDeleteList(position,model.title)
+            }
         }
+    }
+
+    private fun alertDialogForDeleteList(position: Int,title: String){
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Alert")
+        builder.setMessage("Are you sure you want to delete $title.")
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setPositiveButton("Yes"){ dialogInterface, which ->
+            dialogInterface.dismiss()
+
+            if(context is TaskListActivity){
+                context.deleteTaskList(position)
+            }
+
+        }
+
+        builder.setNegativeButton("No"){ dialogInterface, which->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
 

@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import com.example.managproje.activities.*
 import com.example.managproje.models.Board
+import com.example.managproje.models.Card
 import com.example.managproje.models.User
 import com.example.managproje.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -39,7 +40,7 @@ class FireStoreClass {
 
     }
 
-    fun addUpdateTaskList(activity: TaskListActivity, board: Board){
+    fun addUpdateTaskList(activity: Activity, board: Board){
         val taskListHashMap = HashMap<String, Any>()
         taskListHashMap[Constants.TASK_LIST] = board.taskList
 
@@ -48,11 +49,24 @@ class FireStoreClass {
             .update(taskListHashMap)
             .addOnSuccessListener {
                 Log.e(activity.javaClass.simpleName, "TaskList Updated Successfully")
-                activity.addUpdateTaskListSuccess()
+                if(activity is TaskListActivity){
+                    activity.addUpdateTaskListSuccess()
+                }
+                else if(activity is CardDetailsActivity){
+                    activity.addUpdateTaskListSuccess()
+                }
+
             }
             .addOnFailureListener {
                 exception->
-                activity.hideProgressDialog()
+                if(activity is TaskListActivity){
+                    activity.hideProgressDialog()
+                }
+
+                else if(activity is CardDetailsActivity){
+                    activity.hideProgressDialog()
+                }
+
                 Log.e(activity.javaClass.simpleName, "Error while creating the board", exception)
             }
     }

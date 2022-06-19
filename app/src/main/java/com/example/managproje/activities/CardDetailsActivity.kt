@@ -1,15 +1,19 @@
 package com.example.managproje.activities
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.widget.Toast
 import com.example.managproje.R
+import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
+import com.example.managproje.models.Card
 import com.example.managproje.utils.Constants
 import kotlinx.android.synthetic.main.activity_card_details.*
 import kotlinx.android.synthetic.main.activity_members.*
 
-class CardDetailsActivity : AppCompatActivity() {
+class CardDetailsActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private var mTaskListPosition = -1
@@ -27,6 +31,16 @@ class CardDetailsActivity : AppCompatActivity() {
             .cards[mCardPosition].name)
 
         et_name_card_details.setSelection(et_name_card_details.text.toString().length)
+
+        btn_update_card_details.setOnClickListener {
+            if(et_name_card_details.text.toString().isNotEmpty()){
+                updateCardDetail()
+            }else{
+                Toast.makeText(this@CardDetailsActivity,
+                    "Please Enter a Card Name",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupActionBar(){
@@ -41,6 +55,13 @@ class CardDetailsActivity : AppCompatActivity() {
                 .cards[mCardPosition].name
         }
         toolbar_card_details_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    fun addUpdateTaskListSuccess(){
+        hideProgressDialog()
+
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -58,5 +79,18 @@ class CardDetailsActivity : AppCompatActivity() {
         if(intent.hasExtra(Constants.CARD_LIST_ITEM_POSITION)){
             mCardPosition = intent.getIntExtra(Constants.CARD_LIST_ITEM_POSITION,-1)
         }
+    }
+
+    private fun updateCardDetail(){
+        val card = Card(
+            et_name_card_details.text.toString(),
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].createdBy,
+            mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].assignedTo
+        )
+
+        mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
     }
 }

@@ -2,6 +2,7 @@ package com.example.managproje.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import com.example.managproje.R
 import com.example.managproje.models.Board
 import com.example.managproje.utils.Constants
@@ -20,6 +21,12 @@ class CardDetailsActivity : AppCompatActivity() {
 
         getIntentData()
         setupActionBar()
+
+        et_name_card_details.setText(mBoardDetails
+            .taskList[mTaskListPosition]
+            .cards[mCardPosition].name)
+
+        et_name_card_details.setSelection(et_name_card_details.text.toString().length)
     }
 
     private fun setupActionBar(){
@@ -34,6 +41,11 @@ class CardDetailsActivity : AppCompatActivity() {
                 .cards[mCardPosition].name
         }
         toolbar_card_details_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_delete_card, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     private fun getIntentData(){

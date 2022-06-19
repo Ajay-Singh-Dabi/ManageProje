@@ -26,6 +26,7 @@ class LabelColorListItemsAdapter(private val context: Context,
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item =  list[position]
         if(holder is MyViewHolder){
+
             holder.itemView.view_main.setBackgroundColor(Color.parseColor(item))
             if(item == mSelectedColor){
                 holder.itemView.iv_selected_color.visibility = View.VISIBLE

@@ -1,14 +1,17 @@
 package com.example.managproje.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import com.example.managproje.R
 import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
 import com.example.managproje.models.Card
+import com.example.managproje.models.Task
 import com.example.managproje.utils.Constants
 import kotlinx.android.synthetic.main.activity_card_details.*
 import kotlinx.android.synthetic.main.activity_members.*
@@ -69,6 +72,17 @@ class CardDetailsActivity : BaseActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.action_delete_card ->{
+                alertDialogForDeleteCard(mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition].name)
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun getIntentData(){
         if(intent.hasExtra(Constants.BOARD_DETAIL)){
             mBoardDetails = intent.getParcelableExtra(Constants.BOARD_DETAIL)!!
@@ -89,6 +103,47 @@ class CardDetailsActivity : BaseActivity() {
         )
 
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)
+    }
+
+    private fun alertDialogForDeleteCard(cardName: String){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(resources.getString(R.string.alert))
+        builder.setMessage(
+            resources.getString(
+                R.string.confirmation_message_to_delete_card,
+                cardName
+            )
+        )
+
+        builder.setIcon(android.R.drawable.ic_dialog_alert)
+        builder.setPositiveButton(resources.getString(R.string.yes)){ dialogInterface, which ->
+            dialogInterface.dismiss()
+            deleteCard()
+        }
+
+        builder.setNegativeButton(resources.getString(R.string.no)){ dialogInterface, which ->
+            dialogInterface.dismiss()
+        }
+
+        val alertDialog: AlertDialog = builder.create()
+
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+    }
+
+    private fun deleteCard(){
+        val cardList: ArrayList<Card> =
+            mBoardDetails.taskList[mTaskListPosition].cards
+
+        cardList.removeAt(mCardPosition)
+
+        val taskList: ArrayList<Task> = mBoardDetails.taskList
+        taskList.removeAt(taskList.size - 1)   //because at .size we have add card button
+
+        taskList[mTaskListPosition].cards = cardList
 
         showProgressDialog(resources.getString(R.string.please_wait))
         FireStoreClass().addUpdateTaskList(this@CardDetailsActivity, mBoardDetails)

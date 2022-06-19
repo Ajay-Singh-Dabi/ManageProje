@@ -16,7 +16,9 @@
         android:theme="@style/Theme.ManagProje">
         <activity
             android:name=".activities.CardDetailsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.MembersActivity"
             android:exported="false"

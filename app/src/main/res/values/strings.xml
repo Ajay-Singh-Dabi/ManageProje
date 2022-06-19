@@ -51,5 +51,6 @@
     <string name="select_due_date">Select Due Date</string>
     <string name="update">UPDATE</string>
 
+    <string name="delete_card">Delete Card</string>
 
 </resources>

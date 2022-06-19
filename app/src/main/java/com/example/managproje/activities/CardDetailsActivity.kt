@@ -14,7 +14,6 @@ class CardDetailsActivity : AppCompatActivity() {
         setupActionBar()
     }
 
-
     private fun setupActionBar(){
         setSupportActionBar(toolbar_card_details_activity)
 

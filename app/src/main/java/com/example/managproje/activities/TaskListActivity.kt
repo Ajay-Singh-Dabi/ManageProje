@@ -46,6 +46,10 @@ class TaskListActivity : BaseActivity() {
         }
     }
 
+    fun cardDetails(taskListPosition: Int, cardPosition: Int){
+        startActivity(Intent(this,CardDetailsActivity::class.java))
+    }
+
     fun boardDetails(board: Board){
 
         mBoardDetails = board

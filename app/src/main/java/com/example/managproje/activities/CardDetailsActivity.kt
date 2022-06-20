@@ -63,6 +63,8 @@ class CardDetailsActivity : BaseActivity() {
         tv_select_members.setOnClickListener {
             membersListDialog()
         }
+
+        setupSelectedMembersList()
     }
 
     private fun setupActionBar(){
@@ -144,9 +146,34 @@ class CardDetailsActivity : BaseActivity() {
             resources.getString(R.string.str_select_member)
         ){
             override fun onItemSelected(user: User, action: String) {
-                // TODO Implement the selected member functionality
-            }
 
+                if (action == Constants.SELECT) {
+                    if (!mBoardDetails
+                            .taskList[mTaskListPosition]
+                            .cards[mCardPosition]
+                            .assignedTo.contains(user.id)
+                    )
+
+                        mBoardDetails
+                            .taskList[mTaskListPosition]
+                            .cards[mCardPosition]
+                            .assignedTo.add(user.id)
+                } else {
+                    mBoardDetails
+                        .taskList[mTaskListPosition]
+                        .cards[mCardPosition]
+                        .assignedTo.remove(user.id)
+
+                    for (i in mMembersDetailList.indices) {
+                        if (mMembersDetailList[i].id == user.id) {
+                            mMembersDetailList[i].selected = false
+                        }
+                    }
+                }
+
+                setupSelectedMembersList()
+
+            }
         }
         listDialog.show()
     }

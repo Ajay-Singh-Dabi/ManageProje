@@ -204,7 +204,7 @@ class CardDetailsActivity : BaseActivity() {
                 this, 6
             )
 
-            val adapter = CardMemberListItemsAdapter(this,selectedMembersList)
+            val adapter = CardMemberListItemsAdapter(this,selectedMembersList, true)
             rv_selected_members_list.adapter = adapter
             adapter.setOnClickListener(
                 object: CardMemberListItemsAdapter.OnClickListener{

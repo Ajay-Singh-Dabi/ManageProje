@@ -10,6 +10,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import com.example.managproje.R
 import com.example.managproje.dialogs.LabelColorListDialog
+import com.example.managproje.dialogs.MembersListDialog
 import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
 import com.example.managproje.models.Card
@@ -57,6 +58,10 @@ class CardDetailsActivity : BaseActivity() {
 
         tv_select_label_color.setOnClickListener {
             labelColorsListDialog()
+        }
+
+        tv_select_members.setOnClickListener {
+            membersListDialog()
         }
     }
 
@@ -112,6 +117,38 @@ class CardDetailsActivity : BaseActivity() {
                 .getParcelableArrayListExtra(
                     Constants.BOARD_MEMBERS_LIST)!!
         }
+    }
+
+    private fun membersListDialog(){
+        var cardAssignedMembersList = mBoardDetails
+            .taskList[mTaskListPosition]
+            .cards[mCardPosition].assignedTo
+
+        if(cardAssignedMembersList.size > 0){
+            for (i in mMembersDetailList.indices){
+                for (j in cardAssignedMembersList){
+                    if(mMembersDetailList[i].id == j){
+                        mMembersDetailList[i].selected = true
+                    }
+                }
+            }
+        }else{
+            for (i in mMembersDetailList.indices){
+                mMembersDetailList[i].selected = false
+            }
+        }
+
+        val listDialog = object: MembersListDialog(
+            this,
+            mMembersDetailList,
+            resources.getString(R.string.str_select_member)
+        ){
+            override fun onItemSelected(user: User, action: String) {
+                // TODO Implement the selected member functionality
+            }
+
+        }
+        listDialog.show()
     }
 
     private fun updateCardDetail(){

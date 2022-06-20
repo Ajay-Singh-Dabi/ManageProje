@@ -64,6 +64,10 @@ open class MemberListItemsAdapter(
         return list.size
     }
 
+    fun setOnClickListener(onClickListener: OnClickListener){
+        this.onClickListener = onClickListener
+    }
+
     class MyViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     interface OnClickListener{

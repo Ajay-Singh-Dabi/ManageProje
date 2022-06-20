@@ -227,6 +227,9 @@ class CardDetailsActivity : BaseActivity() {
             mSelectedColor
         )
 
+        val taskList: ArrayList<Task> = mBoardDetails.taskList
+        taskList.removeAt(taskList.size-1)
+
         mBoardDetails.taskList[mTaskListPosition].cards[mCardPosition] = card
 
         showProgressDialog(resources.getString(R.string.please_wait))

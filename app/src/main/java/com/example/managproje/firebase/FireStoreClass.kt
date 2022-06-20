@@ -208,7 +208,7 @@ class FireStoreClass {
     }
 
     fun getAssignedMembersListDetails(
-        activity: MembersActivity, assignedTo: ArrayList<String>){
+        activity: Activity, assignedTo: ArrayList<String>){
         mFireStore.collection(Constants.USERS)
             .whereIn(Constants.ID, assignedTo)
             .get()
@@ -222,12 +222,24 @@ class FireStoreClass {
                     val user = i.toObject(User::class.java)!!
                     usersList.add(user)
                 }
+                if(activity is MembersActivity){
+                    activity.setupMembersList(usersList)
+                }
 
-                activity.setupMembersList(usersList)
+                else if(activity is TaskListActivity){
+                    activity.boardMemberDetailList(usersList)
+                }
+
             }
             .addOnFailureListener {
                     e->
-                activity.hideProgressDialog()
+                if(activity is MembersActivity){
+                    activity.hideProgressDialog()
+                }
+
+                else if(activity is TaskListActivity){
+                    activity.hideProgressDialog()
+                }
                 Log.e(activity.javaClass.simpleName, "Error while loading the Members",e)
             }
     }

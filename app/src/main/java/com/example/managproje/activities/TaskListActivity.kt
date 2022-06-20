@@ -13,6 +13,7 @@ import com.example.managproje.firebase.FireStoreClass
 import com.example.managproje.models.Board
 import com.example.managproje.models.Card
 import com.example.managproje.models.Task
+import com.example.managproje.models.User
 import com.example.managproje.utils.Constants
 import kotlinx.android.synthetic.main.activity_task_list.*
 
@@ -21,6 +22,7 @@ class TaskListActivity : BaseActivity() {
 
     private lateinit var mBoardDetails: Board
     private lateinit var mBoardDocumentId: String
+    private lateinit var mAssignedMemberDetailList: ArrayList<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,6 +54,7 @@ class TaskListActivity : BaseActivity() {
         intent.putExtra(Constants.BOARD_DETAIL, mBoardDetails)
         intent.putExtra(Constants.TASK_LIST_ITEM_POSITION, taskListPosition)
         intent.putExtra(Constants.CARD_LIST_ITEM_POSITION, cardPosition)
+        intent.putExtra(Constants.BOARD_MEMBERS_LIST, mAssignedMemberDetailList)
         startActivityForResult(intent, CARD_DETAIL_REQUEST_CODE)
     }
 
@@ -71,6 +74,10 @@ class TaskListActivity : BaseActivity() {
 
         val adapter = TaskListItemsAdapter(this, board.taskList)
         rv_task_list.adapter = adapter
+
+        showProgressDialog(resources.getString(R.string.please_wait))
+        FireStoreClass().getAssignedMembersListDetails(this,
+            mBoardDetails.assignedTo)
 
     }
 
@@ -161,6 +168,11 @@ class TaskListActivity : BaseActivity() {
             actionBar.title = mBoardDetails.name
         }
         toolbar_task_list_activity.setNavigationOnClickListener { onBackPressed() }
+    }
+
+    fun boardMemberDetailList(list: ArrayList<User>){
+        mAssignedMemberDetailList = list
+        hideProgressDialog()
     }
 
     companion object {

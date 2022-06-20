@@ -1,7 +1,9 @@
 package com.example.managproje.models
 
+import android.os.Build
 import android.os.Parcel
 import android.os.Parcelable
+import androidx.annotation.RequiresApi
 
 data class User (
     val id: String = "",
@@ -10,17 +12,21 @@ data class User (
     val image: String = "",
     val mobile: Long = 0,
     val fcmToken: String = "",
+    var selected: Boolean = false
 ): Parcelable {
+    @RequiresApi(Build.VERSION_CODES.Q)
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readLong(),
-        parcel.readString()!!
+        parcel.readString()!!,
+        parcel.readBoolean()
     ) {
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun writeToParcel(parcel: Parcel, flags: Int){
         parcel.writeString(id)
         parcel.writeString(name)
@@ -28,6 +34,7 @@ data class User (
         parcel.writeString(image)
         parcel.writeLong(mobile)
         parcel.writeString(fcmToken)
+        parcel.writeBoolean(selected)
     }
 
     override fun describeContents() = 0

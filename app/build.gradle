@@ -59,4 +59,7 @@ dependencies {
 
     //firebase storage
     implementation 'com.google.firebase:firebase-storage:19.1.1'
+
+    //firebase notification
+    implementation 'com.google.firebase:firebase-messaging:20.1.2'
 }
